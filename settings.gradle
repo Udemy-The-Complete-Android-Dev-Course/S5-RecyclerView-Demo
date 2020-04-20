@@ -1,0 +1,2 @@
+rootProject.name='S5 RecyclerView Demo'
+include ':app'
