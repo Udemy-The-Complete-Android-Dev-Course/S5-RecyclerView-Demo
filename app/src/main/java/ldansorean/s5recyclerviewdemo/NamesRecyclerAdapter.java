@@ -1,10 +1,11 @@
 package ldansorean.s5recyclerviewdemo;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,12 +23,23 @@ public class NamesRecyclerAdapter extends RecyclerView.Adapter<NamesRecyclerAdap
         TextView nameTextView = new TextView(parent.getContext());
         nameTextView.setTextSize(22);
         nameTextView.setPadding(50, 5, 5, 5);
-        return new NamesViewHolder(nameTextView);
+        //nameTextView.setBackgroundColor(Color.rgb(255, 0, 0));
+
+        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 0);
+        nameTextView.setLayoutParams(params);
+
+        return new NamesViewHolder(parent.getContext(), nameTextView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NamesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final NamesViewHolder holder, final int position) {
         holder.nameTextView.setText(names[position]);
+        holder.nameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(holder.context, "Hello " + names[position] + "!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -37,10 +49,12 @@ public class NamesRecyclerAdapter extends RecyclerView.Adapter<NamesRecyclerAdap
 
     protected class NamesViewHolder extends RecyclerView.ViewHolder {
         protected TextView nameTextView;
+        protected Context context;
 
-        public NamesViewHolder(@NonNull TextView itemView) {
+        public NamesViewHolder(Context context, @NonNull TextView itemView) {
             super(itemView);
             this.nameTextView = itemView;
+            this.context = context;
         }
     }
 }
